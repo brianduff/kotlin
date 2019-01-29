@@ -71,7 +71,7 @@ public class GradleRunner {
         GeneralCommandLine test = generateCommandLine("connectedAndroidTest");
         test.addParameters("--stacktrace");
         //To avoid problem with discovering tests on Android in multidex build
-        test.addParameters("-Pandroid.testInstrumentationRunnerArguments.class=org.jetbrains.kotlin.android.tests.CodegenTestCaseOnAndroid");
+        //test.addParameters("-Pandroid.testInstrumentationRunnerArguments.class=org.jetbrains.kotlin.android.tests.CodegenTestCaseOnAndroid");
         return RunUtils.execute(test).getOutput();
     }
 

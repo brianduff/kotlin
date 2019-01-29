@@ -47,3 +47,7 @@ projectTest {
 
     workingDir = rootDir
 }
+
+val generateTests by generator("org.jetbrains.kotlin.android.tests.CodegenTestsOnAndroidGenerator")
+
+generateTests.workingDir = rootDir
