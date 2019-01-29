@@ -3,6 +3,7 @@
 // IGNORE_BACKEND: JS, NATIVE
 
 // WITH_REFLECT
+package test
 
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -36,8 +37,8 @@ fun check(x: Any, y: Any, regexString: String) {
     assertEquals(x.hashCode(), y.hashCode())
 
     val regex = regexString.toRegex()
-    assertTrue(regex.matches(x.toString()))
-    assertTrue(regex.matches(y.toString()))
+    assertTrue(regex.matches(x.toString()), "Checking $x")
+    assertTrue(regex.matches(y.toString()), "Checking $y")
 }
 
 fun checkNot(x: Any, y: Any) {
@@ -57,10 +58,10 @@ fun box(): String {
     val dpz = D::class.constructors.single().call(+0.0)
     val fmz = F::class.constructors.single().call(-0.0f)
     val fpz = F::class.constructors.single().call(+0.0f)
-    check(::dMinusZero.annotations.single() as D, dmz, "@D\\(d=-0.0\\)")
-    check(::dPlusZero.annotations.single() as D, dpz, "@D\\(d=0.0\\)")
-    check(::fMinusZero.annotations.single() as F, fmz, "@F\\(f=-0.0f?\\)")
-    check(::fPlusZero.annotations.single() as F, fpz, "@F\\(f=0.0f?\\)")
+    check(::dMinusZero.annotations.single() as D, dmz, "@test\\.D\\(d=-0.0\\)")
+    check(::dPlusZero.annotations.single() as D, dpz, "@test\\.D\\(d=0.0\\)")
+    check(::fMinusZero.annotations.single() as F, fmz, "@test\\.F\\(f=-0.0f?\\)")
+    check(::fPlusZero.annotations.single() as F, fpz, "@test\\.F\\(f=0.0f?\\)")
 
     checkNot(dmz, dpz)
     checkNot(fmz, fpz)
