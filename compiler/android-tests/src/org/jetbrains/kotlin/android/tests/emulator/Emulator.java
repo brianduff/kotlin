@@ -180,7 +180,17 @@ public class Emulator {
 
         if (SystemInfo.isWindows) {
             //TODO check that command above works on windows and remove this
-            OutputUtils.checkResult(RunUtils.execute(getStopCommand()));
+            try {
+                OutputUtils.checkResult(RunUtils.execute(getStopCommand()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                //TASKLIST /svc
+                GeneralCommandLine commandLine = new GeneralCommandLine();
+                commandLine.setExePath("tasklist");
+                commandLine.addParameter("/svc");
+                RunResult execute = RunUtils.execute(commandLine);
+                System.out.println(execute.getOutput());
+            }
         }
 
         finishProcess("emulator64-" + platform);
