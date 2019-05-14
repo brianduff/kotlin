@@ -19,6 +19,7 @@
 package org.jetbrains.kotlin.idea.imports
 
 import org.jetbrains.kotlin.descriptors.*
+import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtImportDirective
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
@@ -30,6 +31,7 @@ import org.jetbrains.kotlin.resolve.ImportPath
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getImportableDescriptor
+import org.jetbrains.kotlin.resolve.lazy.BodyResolveMode
 import org.jetbrains.kotlin.types.KotlinType
 
 object ImportPathComparator : Comparator<ImportPath> {
@@ -94,5 +96,7 @@ fun KtReferenceExpression.getImportableTargets(bindingContext: BindingContext): 
     return targets.map { it.getImportableDescriptor() }.toSet()
 }
 
-fun KtImportDirective.canResolve(): Boolean = (importedReference?.getQualifiedElementSelector() as? KtNameReferenceExpression)
-    ?.reference?.resolve() != null ?: false
+fun KtImportDirective.canResolve(): Boolean {
+    return (importedReference?.getQualifiedElementSelector() as? KtNameReferenceExpression)
+        ?.getImportableTargets(analyze(BodyResolveMode.PARTIAL))?.isNotEmpty() ?: false
+}
