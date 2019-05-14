@@ -137,11 +137,9 @@ class CodegenTestsOnAndroidGenerator private constructor(private val pathManager
 
             //2000 files per folder, each folder would be jared by build.gradle script
             // 1. We can't create one big jar with all test cause dex has problem with memory on teamcity
-            // 2. TODO
             writtenFilesCount += filesToCompile.size
             val index = writtenFilesCount / 2000
             val outputDir = File(pathManager.getOutputForCompiledFiles(index))
-
 
             println("Generating ${filesToCompile.size} files into ${outputDir.name}, configuration: '${environment.configuration}'...")
 
